@@ -1,5 +1,6 @@
 import os
 import discord
+from discord.errors import NotFound
 from dotenv import load_dotenv
 import random
 from fuzzywuzzy import fuzz
@@ -70,11 +71,12 @@ async def imitate_cheese(message):
 
 async def send_webhook(message, content, userid):
     user = await client.fetch_user(userid)
-    member = await message.guild.fetch_member(userid)
-    if member is None:
-        displayname = member.display_name
-    else:
+    try:
+        member = await message.guild.fetch_member(userid)
+    except NotFound as e:
         displayname = user.display_name
+    else:
+        displayname = member.display_name
     avatar_url = user.avatar_url
     web = await message.channel.webhooks()
     if not web:
