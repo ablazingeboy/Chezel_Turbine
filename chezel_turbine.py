@@ -70,7 +70,7 @@ async def imitate_cheese(message):
 
 async def send_webhook(message, content, userid):
     member = await message.guild.fetch_member(userid)
-    user = displayname = await client.fetch_user(userid)
+    user = await client.fetch_user(userid)
     displayname = member.display_name
     if not displayname:
         user.display_name
