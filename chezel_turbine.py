@@ -39,14 +39,14 @@ async def on_message(message):
     
 
 async def imitate_xezel(message):
-    xez =  await client.fetch_user(295234517839380481)
+    xez =  295234517839380481
     content = fetch_random_from_text('xezelrefs.txt')
     await send_webhook(message, content, xez)
 
 async def imitate_cheese(message):
     global is_angry
     global anger_threshold
-    ches = await client.fetch_user(536870694827589633)
+    ches = 536870694827589633
     print('successfully triggered')
     anger_threshold = anger_threshold + 10
     randomnum = random.randint(0, 100)
@@ -68,13 +68,19 @@ async def imitate_cheese(message):
             await send_webhook(message, response, ches)
             i = i - 1
 
-async def send_webhook(message, content, user):
+async def send_webhook(message, content, userid):
+    member = await message.guild.fetch_member(userid)
+    user = displayname = await client.fetch_user(userid)
+    displayname = member.display_name
+    if not displayname:
+        user.display_name
+    avatar_url = user.avatar_url
     web = await message.channel.webhooks()
     if not web:
         webhook = await message.channel.create_webhook(name='Chezel_Turbine')
     web = await message.channel.webhooks()
     webhook = web[0]
-    await webhook.send(content=content, username=user.display_name, avatar_url=user.avatar_url)
+    await webhook.send(content=content, username=displayname, avatar_url=avatar_url)
 
 async def send_embed(message, title, content, footer):
     embed = discord.Embed(
@@ -112,7 +118,7 @@ def anger_cheese():
     global anger_threshold
     print('cheese angy')
     is_angry = True
-    t = Timer(interval=60.0, function=calm_cheese)
+    t = Timer(interval=600.0, function=calm_cheese)
     t.start()
 
 def calm_cheese():
