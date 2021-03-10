@@ -35,6 +35,8 @@ async def on_message(message):
         await imitate_xezel(message)
     elif 'xezel' in message.content.lower():
         await imitate_xezel(message)
+    elif 755737263585099776 in message.raw_mentions:
+        await imitate_xezel(message)
     if check_cheese_triggers(message):
         await imitate_cheese(message)
     
@@ -100,7 +102,7 @@ def fetch_random_from_text(filename):
     return refs[random.randint(0, len(refs) - 1)]
 
 def check_cheese_triggers(message):
-    cheese_match = match_triggers(message, 'cheesetrigger.txt') or (536870694827589633 in message.raw_mentions)
+    cheese_match = match_triggers(message, 'cheesetrigger.txt') or ((536870694827589633 in message.raw_mentions) or (803685807587328070 in message.raw_mentions))
     short_match = match_triggers(message, 'shorttrigger.txt')
     return cheese_match and short_match
 
