@@ -71,7 +71,8 @@ async def imitate_cheese(message):
 async def send_webhook(message, content, user):
     web = await message.channel.webhooks()
     if not web:
-        webhook = await message.channel.create_webhook(name='TGBot')
+        webhook = await message.channel.create_webhook(name='Chezel_Turbine')
+    web = await message.channel.webhooks()
     webhook = web[0]
     await webhook.send(content=content, username=user.display_name, avatar_url=user.avatar_url)
 
