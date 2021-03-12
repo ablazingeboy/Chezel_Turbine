@@ -20,6 +20,7 @@ bot.remove_command('help')
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
+    await bot.change_presence(activity=discord.Game(name="Hacking and Griefing"))
 
 @bot.listen('on_message')
 async def on_message(message):
@@ -35,6 +36,12 @@ async def on_message(message):
         await imitate_xezel(message)
     if check_cheese_triggers(message):
         await imitate_cheese(message)
+    if message.attachments:
+        randnum = random.randint(0, 15)
+        print(f'imageroll: {randnum}')
+        if randnum < 3:
+            await sigma_random(message)
+
 
 @bot.command(name='invite', help='Provides a link to invite me to your server!')
 async def invite(ctx):
@@ -118,6 +125,11 @@ async def sigmafy(ctx, *args):
         text = text.replace('child', 'lad')
         text = text.replace('kid', 'lad')
     await send_webhook(channel, text, sig, send_as)
+
+async def sigma_random(message):
+    channel = message.channel
+    sig = 406679351820681216
+    await send_webhook(channel, fetch_random_from_text('sigmarefs.txt'), sig, fetch_random_from_text('sigmanames.txt'))
 
 async def imitate_xezel(message):
     xez =  295234517839380481
