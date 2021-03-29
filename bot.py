@@ -126,6 +126,57 @@ async def sigmafy(ctx, *args):
         text = text.replace('kid', 'lad')
     await send_webhook(channel, text, sig, send_as)
 
+@bot.command(name='pastalibs', help='placeholder')
+async def pastalibs(ctx, *args):
+    if not args:
+        with open('copypastas.txt', 'r') as file:
+            refs = file.readlines()
+        pastanumber = random.randint(0, len(refs) - 1)
+        text = refs[pastanumber]
+        output = f'To fill out the Pasta Lib, please run the command `_pastalibs {pastanumber}'
+        sublist = getsublist(text)
+        for word in sublist:
+            output = output + ' [' + word + ']'
+        await ctx.send(output + '`')
+    else:
+        if not args[0].isdigit():
+            await ctx.send('Error: the first argument you put in wasn\'t a number!')
+        else:
+            pastanumber = int(args[0])
+            with open('copypastas.txt', 'r') as file:
+                refs = file.readlines()
+            text = refs[pastanumber]
+            sublist = getsublist(text)
+            if not len(sublist) + 1 == len(args):
+                await ctx.send('Error: You don\'t have all of the necessary words!')
+            else:
+                counter = 1
+                for word in sublist:
+                    text = text.replace('&' + word + '&', args[counter])
+                    counter += 1
+                output = text.split('---')
+                message = ''
+                for line in output:
+                    message += line + '\n'
+                await ctx.send(message)
+
+
+def getsublist(text):
+    index = 0
+    sublist = []
+    while index != -1:
+        index1 = text.find('&', index)
+        index2 = text.find('&', index1 + 1)
+        word = text[index1 + 1: index2]
+        if not word in sublist:
+            sublist.append(text[index1 + 1: index2])
+        if index2 == len(text) - 1 or text.find('&', index2 + 1) == -1:
+            index = -1
+        else:
+            index = index2 + 1
+    return sublist
+
+
 async def sigma_random(message):
     channel = message.channel
     sig = 406679351820681216
